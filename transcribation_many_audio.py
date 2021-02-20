@@ -16,6 +16,7 @@ VERSION = 'v2'
 METHOD = 'longRunningRecognize'
 RESULT_URL = 'https://operation.api.cloud.yandex.net/operations/{request_id}'
 TIME_SLEEP = 5
+TIMEOUT = 30
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -61,36 +62,62 @@ def processing_lines_of_the_file():
 
 
 def send_transcription_request(one_audio):
-    header = {'Authorization': 'Api-Key {}'.format(KEY)}
-    body = {
-        'config': {
-            'specification': {
-                'languageCode': 'ru-RU',
+    try:
+        header = {'Authorization': 'Api-Key {}'.format(KEY)}
+        body = {
+            'config': {
+                'specification': {
+                    'languageCode': 'ru-RU',
+                }
+            },
+            'audio': {
+                'uri': FILE_LINK.format(bucket=BUCKET, file_key=one_audio)
             }
-        },
-        'audio': {
-            'uri': FILE_LINK.format(bucket=BUCKET, file_key=one_audio)
         }
-    }
-    req = requests.post(API, headers=header, json=body)
-    data = req.json()
-    return data['id']
+        try:
+            req = requests.post(
+                API,
+                headers=header,
+                json=body,
+                timeout=TIMEOUT
+            ).json()
+        except KeyError as e:
+            message = f'Ошибка парссинга json send_request. {e}'
+            logging.error(message)
+            return message
+        else:
+            return req['id']
+    except ConnectionError as e:
+        message = f'Не удалось отправить запрос на транскрибацию. {e}'
+        logging_and_print_error_message(message)
 
 
 def getting_the_transcription_result(request_id, title):
-    while True:
-        time.sleep(TIME_SLEEP)
-        header = {'Authorization': 'Api-Key {}'.format(KEY)}
-        req = requests.get(
-            RESULT_URL.format(id=request_id),
-            headers=header).json
-        if req['done']:
-            break
-    logging.debug('Получен ответ-транскрипт аудио.')
-    with open(title, 'wb') as new_file:
-        for chunk in req['response']['chunks']:
-            new_file.write(chunk['alternatives'][0]['text'])
-    logging.debug(f'{title} успешно сохранён')
+    try:
+        while True:
+            time.sleep(TIME_SLEEP)
+            header = {'Authorization': 'Api-Key {}'.format(KEY)}
+            try:
+                req = requests.get(
+                    RESULT_URL.format(id=request_id),
+                    headers=header,
+                    timeout=TIMEOUT
+                ).json
+            except KeyError as e:
+                message = f'Ошибка парссинга json getting_result. {e}'
+                logging.error(message)
+                return message
+            else:
+                if req['done']:
+                    break
+        logging.debug('Получен ответ-транскрипт аудио.')
+        with open(title, 'wb') as new_file:
+            for chunk in req['response']['chunks']:
+                new_file.write(chunk['alternatives'][0]['text'])
+        logging.debug(f'{title} успешно сохранён')
+    except ConnectionError as e:
+        message = f'Не удалось получить ответ о транскрибации. {e}'
+        logging_and_print_error_message(message)
 
 
 def logging_and_print_error_message(message):
