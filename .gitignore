@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 links_list.txt
-*.txt
+results/*.txt
