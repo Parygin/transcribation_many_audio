@@ -48,6 +48,8 @@ def processing_lines_of_the_file():
                 title = f'{FOLDER}/{one_audio.split(".")[0]}.txt'
                 print(title)
                 logging.debug(f'{one_audio} полностью обработан')
+        logging.debug('Все аудио обработаны')
+        print('Работа спринта завершена, все аудио обработаны.')
     except Exception as e:
         message = f'Неразрешимая ошибка: {e}'
         logging_and_print_error_message(message)
