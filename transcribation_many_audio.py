@@ -76,7 +76,7 @@ def send_transcription_request(one_audio):
         }
         try:
             req = requests.post(
-                API,
+                API.format(version=VERSION, method=METHOD),
                 headers=header,
                 json=body,
                 timeout=TIMEOUT
