@@ -1,14 +1,16 @@
 import logging
 import os
 
-# import requests
+import requests
 from dotenv import load_dotenv
 
 load_dotenv()
 KEY = os.getenv('KEY')
 FILE = 'links_list.txt'
 FOLDER = 'results'
-URL = 'https://transcribe.api.cloud.yandex.net/speech/stt/{VERSION}/{METHOD}'
+BUCKET = os.getenv('BUCKET')
+FILE_LINK = 'https://storage.yandexcloud.net/{bucket}/{file_key}'
+API = 'https://transcribe.api.cloud.yandex.net/speech/stt/{VERSION}/{METHOD}'
 VERSION = 'v2'
 METHOD = 'longRunningRecognize'
 
@@ -53,6 +55,23 @@ def processing_lines_of_the_file():
     except Exception as e:
         message = f'Неразрешимая ошибка: {e}'
         logging_and_print_error_message(message)
+
+
+def send_transcription_request(one_audio):
+    header = {'Authorization': 'Api-Key {}'.format(KEY)}
+    body = {
+        'config': {
+            'specification': {
+                'languageCode': 'ru-RU',
+            }
+        },
+        'audio': {
+            'uri': FILE_LINK.format(bucket=BUCKET, file_key=one_audio)
+        }
+    }
+    req = requests.post(API, headers=header, json=body)
+    data = req.json()
+    return data['id']
 
 
 def logging_and_print_error_message(message):
