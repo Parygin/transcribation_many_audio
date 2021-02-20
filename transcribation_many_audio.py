@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 
 import requests
 from dotenv import load_dotenv
@@ -13,6 +14,7 @@ FILE_LINK = 'https://storage.yandexcloud.net/{bucket}/{file_key}'
 API = 'https://transcribe.api.cloud.yandex.net/speech/stt/{VERSION}/{METHOD}'
 VERSION = 'v2'
 METHOD = 'longRunningRecognize'
+RESULT_URL = 'https://operation.api.cloud.yandex.net/operations/{request_id}'
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -72,6 +74,22 @@ def send_transcription_request(one_audio):
     req = requests.post(API, headers=header, json=body)
     data = req.json()
     return data['id']
+
+
+def getting_the_transcription_result(request_id, title):
+    while True:
+        time.sleep(5)
+        header = {'Authorization': 'Api-Key {}'.format(KEY)}
+        req = requests.get(
+            RESULT_URL.format(id=request_id),
+            headers=header).json
+        if req['done']:
+            break
+    logging.debug('Получен ответ-транскрипт аудио.')
+    with open(title, 'wb') as new_file:
+        for chunk in req['response']['chunks']:
+            new_file.write(chunk['alternatives'][0]['text'])
+    logging.debug(f'{title} успешно сохранён')
 
 
 def logging_and_print_error_message(message):
