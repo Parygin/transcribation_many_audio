@@ -15,6 +15,7 @@ API = 'https://transcribe.api.cloud.yandex.net/speech/stt/{VERSION}/{METHOD}'
 VERSION = 'v2'
 METHOD = 'longRunningRecognize'
 RESULT_URL = 'https://operation.api.cloud.yandex.net/operations/{request_id}'
+TIME_SLEEP = 5
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -78,7 +79,7 @@ def send_transcription_request(one_audio):
 
 def getting_the_transcription_result(request_id, title):
     while True:
-        time.sleep(5)
+        time.sleep(TIME_SLEEP)
         header = {'Authorization': 'Api-Key {}'.format(KEY)}
         req = requests.get(
             RESULT_URL.format(id=request_id),
