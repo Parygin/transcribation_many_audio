@@ -36,9 +36,9 @@ TIME_SLEEP = 30
 ```
 + The default file paths are set as follows:
 ``` python
-# A file with a list of audio files.
+# A file with a list of audio files:
 FILE = 'links_list.txt'
-# Folder for transcription results.
+# Folder for transcription results:
 FOLDER = 'results'
 ```
 
