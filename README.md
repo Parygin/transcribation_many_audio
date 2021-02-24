@@ -7,7 +7,8 @@
 + It is worth paying attention to the supported audio formats.
 I prefer ffmpeg:
 ``` bash
-ffmpeg -i $i -c:a libopus -b:a 48k new/$name.opus
+mkdir new
+for i in *.wav; do name=`echo $i | cut -d'.' -f1`; ffmpeg -i $i -c:a libopus -b:a 48k new/$name.opus; done
 ```
 
 # Installation
