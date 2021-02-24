@@ -8,7 +8,7 @@ For the script to work, you must have a [Yandex Cloud account](https://console.c
 # Installation
 + Clone the repository and go to the application folder:
 ``` python
-git clone 
+git clone https://github.com/Parygin/transcribation_many_audio.git
 cd transcribation_many_audio/
 ```
 + Install and activate the Python virtual environment:
