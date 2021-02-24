@@ -7,10 +7,10 @@ For the script to work, you must have a [Yandex Cloud account](https://console.c
 
 # Installation
 + Install the Python virtual environment:
-        ``` python
+        <``` python
         python3 -m venv venv
         source venv/bin/activate
-        ```
+        ``` >
 + Install all the dependencies are gathered in requirements.txt:
 
 + Write your settings in the .env file (after removing the "example"from its name):
