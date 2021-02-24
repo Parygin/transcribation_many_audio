@@ -30,7 +30,7 @@ python3 transcribation_many_audio.py
 
 
 ### Basic settings
-The script was conceived as a tool for transcribing really long audio (from 10 minutes and more). If you work with shorter files, you can try changing the interval for checking the result:
++ The script was conceived as a tool for transcribing really long audio (from 10 minutes and more). If you work with shorter files, you can try changing the interval for checking the result:
 ``` python
 TIME_SLEEP = 30
 ```
