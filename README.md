@@ -2,7 +2,8 @@
 
 
 # Requirements
-For the script to work, you must have a [Yandex Cloud account](https://console.cloud.yandex.ru/) with a positive balance.
++ For the script to work, you must have a [Yandex Cloud account](https://console.cloud.yandex.ru/) with a positive balance.
++ Audio files must be loaded into an open bucket, this is necessary for generating links (this requirement may be removed in the future)
 
 
 # Installation
