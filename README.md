@@ -34,6 +34,11 @@ python3 transcribation_many_audio.py
 ``` python
 TIME_SLEEP = 30
 ```
++ The default file paths are set as follows:
+``` python
+FILE = 'links_list.txt'
+FOLDER = 'results'
+```
 
 # Information
 - [Yandex Cloud: Распознавание длинных аудио](https://cloud.yandex.ru/docs/speechkit/stt/transcribation)
