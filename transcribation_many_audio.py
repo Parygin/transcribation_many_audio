@@ -50,6 +50,7 @@ def processing_lines_of_the_file():
     try:
         with open(FILE) as register:
             for one_audio in register:
+                one_audio = one_audio.rstrip()
                 logging.debug(f'{one_audio} получен в обработку')
                 title = f'{FOLDER}/{one_audio.split(".")[0]}.txt'
                 request_id = send_transcription_request(one_audio)
