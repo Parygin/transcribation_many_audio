@@ -4,7 +4,7 @@
 # Requirements
 + For the script to work, you must have a [Yandex Cloud account](https://console.cloud.yandex.ru/) with a positive balance.
 + Audio files must be loaded into an open [Bucket](https://cloud.yandex.ru/docs/storage/concepts/bucket), this is necessary for generating links *(this requirement may be removed in the future)*.
-+ It is worth paying attention to the supported audio formats.
++ It is worth paying attention to the [supported audio formats](https://cloud.yandex.ru/docs/speechkit/stt/formats).
 I prefer ffmpeg:
 ``` bash
 mkdir new
