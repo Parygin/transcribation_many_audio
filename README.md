@@ -51,3 +51,7 @@ FOLDER = 'results'
 - [Yandex Cloud: Распознавание длинных аудио](https://cloud.yandex.ru/docs/speechkit/stt/transcribation)
 - [Yandex Cloud: Создание API-ключа](https://cloud.yandex.ru/docs/iam/operations/api-key/create)
 - [Yandex Cloud: Концепции](https://cloud.yandex.ru/docs/storage/concepts/)
+
+# Information from the community
+- [habr: Yandex SpeechKit из командной строки bash/shell](https://habr.com/ru/post/583230/)
+
